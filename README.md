@@ -1,239 +1,210 @@
-Credit Card Fraud Detection
+# Credit Card Fraud Detection
 
-An end-to-end machine learning project for detecting fraudulent credit card transactions using a tuned XGBoost classifier. The project focuses on imbalanced classification, fraud-focused evaluation metrics, feature engineering, hyperparameter tuning, model persistence, and Streamlit deployment.
+An end-to-end machine learning system for detecting fraudulent credit card transactions using a tuned XGBoost classifier, imbalanced-data handling, fraud-focused evaluation, and a Streamlit application.
 
-Project Overview
+## Project Highlights
 
-Credit card fraud detection is a highly imbalanced binary classification problem where fraudulent transactions represent a very small portion of the dataset.
+* Complete workflow from data analysis to deployment
+* Severe class imbalance addressed with class weighting and SMOTE experimentation
+* Comparison of Logistic Regression, Decision Tree, Random Forest, and XGBoost
+* XGBoost hyperparameter tuning with GridSearchCV and PR-AUC scoring
+* 0.961 precision, 0.779 recall, and 0.861 F1-score on the test set
+* Streamlit interface for transaction-level fraud prediction
 
-The objective is to build a model that can identify fraudulent transactions while maintaining strong precision and recall.
+## Results
 
-Dataset
+The final model is a tuned XGBoost classifier.
 
-The project uses the standard Credit Card Fraud Detection dataset with:
+| Metric    |  Score |
+| --------- | -----: |
+| Precision | 0.9610 |
+| Recall    | 0.7789 |
+| F1-Score  | 0.8605 |
+| ROC-AUC   | 0.9805 |
+| PR-AUC    | 0.8246 |
 
-Time — transaction time
+Confusion matrix at a 0.50 decision threshold:
 
-V1 to V28 — PCA-transformed transaction features
-
-Amount — transaction amount
-
-Class — target variable
-
-0 = Legitimate
-
-1 = Fraudulent
-
-Data preparation included duplicate removal and analysis of the class imbalance.
-
-Machine Learning Workflow
-
-Data understanding and quality checks
-
-Duplicate removal
-
-Class distribution analysis
-
-Train-test split with stratification
-
-Feature engineering
-
-Extracted Hour from Time
-
-Created Amount_log using log1p
-
-Feature scaling using StandardScaler
-
-Model comparison
-
-Logistic Regression
-
-SMOTE-based approach
-
-Decision Tree
-
-Random Forest
-
-XGBoost
-
-Hyperparameter tuning with GridSearchCV
-
-Evaluation using fraud-focused metrics
-
-Model and scaler serialization
-
-Streamlit deployment
-
-Final Model
-
-The deployed model is a tuned XGBoost classifier.
-
-Best hyperparameters:
-
-n_estimators: 200
-max_depth: 7
-learning_rate: 0.1
-subsample: 1.0
-colsample_bytree: 0.8
-
-Evaluation on the test set:
-
-Metric
-
-Score
-
-Precision
-
-0.9610
-
-Recall
-
-0.7789
-
-F1-Score
-
-0.8605
-
-ROC-AUC
-
-0.9805
-
-PR-AUC
-
-0.8246
-
-Confusion Matrix:
-
+```text
 [[56648,     3],
  [   21,    74]]
+```
 
-The model uses a decision threshold of 0.50 for the deployed application.
+The model identified 74 fraudulent transactions correctly with 3 false positives on the test set.
 
-Feature Importance
+## Application
 
-The most influential features in the final XGBoost model included:
+The Streamlit application provides:
 
-V14
+* Fraud probability
+* Fraudulent or legitimate classification
+* Model information
+* Prediction threshold
 
-V10
+## Dataset
 
-V4
+The project uses the standard Credit Card Fraud Detection dataset containing:
 
-V12
+* `Time` — seconds elapsed between transactions
+* `V1` to `V28` — PCA-transformed transaction features
+* `Amount` — transaction amount
+* `Class` — target variable
 
-Amount_log
+  * `0` = Legitimate
+  * `1` = Fraudulent
 
-V3
+The dataset is highly imbalanced, so precision, recall, F1-score, and PR-AUC are emphasized over accuracy alone.
 
-V18
+## Machine Learning Workflow
 
-V19
+```text
+Data Understanding
+        ↓
+Data Quality Checks
+        ↓
+Duplicate Removal
+        ↓
+Exploratory Data Analysis
+        ↓
+Class Imbalance Analysis
+        ↓
+Feature Engineering
+        ↓
+Train/Test Split
+        ↓
+Feature Scaling
+        ↓
+Model Comparison
+        ↓
+XGBoost
+        ↓
+Hyperparameter Tuning
+        ↓
+Evaluation
+        ↓
+Model Serialization
+        ↓
+Streamlit Deployment
+```
 
-V8
+### Feature Engineering
 
-V11
+* `Hour` extracted from transaction `Time`
+* `Amount_log` created using `log1p(Amount)`
 
-Because V1 to V28 are PCA-transformed features, they do not have direct business interpretations such as customer age or merchant type.
+### Final XGBoost Configuration
 
-Project Structure
+```text
+n_estimators = 200
+max_depth = 7
+learning_rate = 0.1
+subsample = 1.0
+colsample_bytree = 0.8
+```
 
+Hyperparameter tuning used `GridSearchCV` with `average_precision` as the scoring metric.
+
+## Project Structure
+
+```text
 Credit_Card_Fraud_Detection_ML_Project/
 │
 ├── app/
 │   └── app.py
-│
 ├── data/
 │   └── raw/
-│       └── credit_card.csv
-│
+├── images/
+│   └── screenshots/
 ├── models/
-│   ├── xgb_fraud_model.pkl
-│   └── scaler.pkl
-│
+├── notebooks/
+│   └── credit_card_analysis.ipynb
+├── reports/
 ├── src/
+│   ├── __init__.py
+│   ├── predict.py
 │   ├── preprocessing.py
 │   └── train.py
-│
-├── notebooks/
-│   └── credit_card_fraud_detection.ipynb
-│
-├── requirements.txt
-└── README.md
+├── .gitignore
+├── README.md
+└── requirements.txt
+```
 
-Run Locally
+## Tech Stack
 
-1. Clone the repository
+**Languages and Libraries**
 
-git clone <your-repository-url>
+Python, NumPy, Pandas, Matplotlib, Seaborn, Scikit-learn, imbalanced-learn, XGBoost, Joblib
+
+**Deployment**
+
+Streamlit
+
+## Run Locally
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/MuzammilAIX/Credit_Card_Fraud_Detection_ML_Project.git
 cd Credit_Card_Fraud_Detection_ML_Project
+```
 
-2. Create and activate a virtual environment
+### 2. Create and activate a virtual environment
 
 Windows PowerShell:
 
+```powershell
 python -m venv .venv
 .venv\Scripts\activate
+```
 
-3. Install dependencies
+### 3. Install dependencies
 
+```powershell
 pip install -r requirements.txt
+```
 
-4. Train the model
+### 4. Train the model
 
+```powershell
 python src/train.py
+```
 
-The trained model and scaler are saved in the models/ directory.
+### 5. Run the Streamlit application
 
-5. Start the Streamlit application
-
+```powershell
 python -m streamlit run app/app.py
+```
 
-The application provides a web interface for entering transaction information and receiving a fraud probability and classification.
+## Key Machine Learning Concepts
 
-Deployment
+* Binary classification
+* Highly imbalanced datasets
+* Stratified train-test splitting
+* Standardization
+* Feature engineering
+* Class weighting
+* SMOTE
+* Model comparison
+* XGBoost
+* Hyperparameter tuning
+* Precision, recall, and F1-score
+* ROC-AUC and PR-AUC
+* Confusion matrix analysis
+* Decision thresholding
+* Feature importance
+* Model serialization
+* Streamlit deployment
 
-The Streamlit application uses the saved:
+## Limitations
 
-XGBoost fraud detection model
+The `V1` to `V28` features are PCA-transformed variables, so their individual business meaning is not directly interpretable.
 
-StandardScaler
+The deployed decision threshold is `0.50`. A production fraud detection system should select the threshold according to the financial cost of false positives and false negatives.
 
-The deployment code reproduces the same feature engineering and feature order used during training to keep inference consistent with the training pipeline.
+## Author
 
-Key Skills Demonstrated
-
-Python
-
-Pandas and NumPy
-
-Exploratory Data Analysis
-
-Data preprocessing
-
-Feature engineering
-
-Imbalanced classification
-
-SMOTE
-
-Scikit-learn
-
-XGBoost
-
-Hyperparameter tuning
-
-Precision, Recall and F1-Score
-
-ROC-AUC and PR-AUC
-
-Confusion matrix analysis
-
-Model serialization
-
-Streamlit deployment
-
-Author
-
-Muhammad Muzammal Hussain
+**Muhammad Muzammal Hussain**
 
 AI Engineer | Machine Learning | Deep Learning | AI Applications
+
+GitHub: [MuzammilAIX](https://github.com/MuzammilAIX)
