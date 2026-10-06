@@ -1,0 +1,57 @@
+# Python
+
+**pycache**/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual Environment
+
+.venv/
+venv/
+env/
+ENV/
+
+# Jupyter Notebook
+
+.ipynb_checkpoints/
+
+# Environment Variables
+
+.env
+
+# Model Files
+
+*.pkl
+*.joblib
+
+# Large / Raw Dataset Files
+
+data/raw/
+*.csv
+
+# Logs
+
+*.log
+
+# IDE / Editor
+
+.vscode/
+.idea/
+
+# OS Files
+
+.DS_Store
+Thumbs.db
+
+# Python Packaging
+
+*.egg-info/
+dist/
+build/
+.eggs/
+MANIFEST
+
+# Streamlit
+
+.streamlit/secrets.toml
